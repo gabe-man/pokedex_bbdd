@@ -40,25 +40,49 @@ public class Pokemon {
 	public String getNombre() {
 		return nombre;
 	}
+	
+	public void setNombre(String nombre) {
+		this.nombre=nombre;
+	}
 
 	public double getAltura() {
 		return altura;
+	}
+	
+	public void setAltura(double altura) {
+		this.altura=altura;
 	}
 
 	public double getPeso() {
 		return peso;
 	}
+	
+	public void setPeso(double peso) {
+		this.peso=peso;
+	}
 
 	public tipospokemon getTipo1() {
 		return tipo1;
+	}
+	
+	public void setTipo1(tipos.tipospokemon tipo1) {
+		this.tipo1=tipo1;
 	}
 
 	public tipospokemon getTipo2() {
 		return tipo2;
 	}
+	
+	public void setTipo2(tipos.tipospokemon tipo2) {
+		this.tipo2=tipo2;
+	}
 
 	public sexopokemon getSexo() {
 		return sexo;
+	}
+	
+	public void setSexo(tipos.sexopokemon sexo) {
+		this.sexo=sexo;
 	}
 
 	public boolean isCapturado() {
@@ -69,8 +93,16 @@ public class Pokemon {
 		return descripcion;
 	}
 	
+	public void setDescripcion(String descripcion) {
+		this.nombre=nombre;
+	}
+	
 	public String getImagen() {
 		return imagen;
+	}
+	
+	public void setImagen(String imagen) {
+		this.imagen=imagen;
 	}
 
 	@Override

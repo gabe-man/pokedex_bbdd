@@ -168,6 +168,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lblpokedexde);
 		
 		txtDescripcion = new JTextArea();
+		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setText(Listas.Pokedex.get(Listas.contPokemon).getDescripcion());
 		txtDescripcion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtDescripcion.setLineWrap(true);
@@ -189,11 +190,12 @@ public class PokedexPanel {
 		btnActualizar.setBounds(248, 548, 108, 23);
 		frmPokedexinha.getContentPane().add(btnActualizar);
 		
-		lblImagen = new JLabel(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
-		lblImagen.setBounds(79, 139, 207, 243);
+		lblImagen = new JLabel();
+		lblImagen.setIcon(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
+		lblImagen.setBounds(73, 139, 234, 243);
 		frmPokedexinha.getContentPane().add(lblImagen);
 		frmPokedexinha.setTitle("Pokedexinha");
-		frmPokedexinha.setBounds(100, 100, 649, 653);
+		frmPokedexinha.setBounds(100, 100, 629, 653);
 		frmPokedexinha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -204,8 +206,15 @@ public class PokedexPanel {
 				if(Listas.contPokemon!=(Listas.Pokedex.size()-1))
 				{
 					Listas.contPokemon++;
-					frmPokedexinha.dispose();
-					PokedexPanel window=new PokedexPanel(usuario);
+					Listas.Pokedex.get(Listas.contPokemon).setNum(Listas.contPokemon+1);
+					lblNumyNombre.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getNum())+" "+Listas.Pokedex.get(Listas.contPokemon).getNombre());
+					lblaltura.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getAltura())+" m");
+					lblpeso.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getPeso())+" Kg");
+					lblsexo.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getSexo()));
+					lbltipo1.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo1()));
+					lbltipo2.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo2()));
+					txtDescripcion.setText(Listas.Pokedex.get(Listas.contPokemon).getDescripcion());
+					lblImagen.setIcon(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
 				}
 			}
 		});
@@ -215,9 +224,35 @@ public class PokedexPanel {
 				if(Listas.contPokemon!=0)
 				{
 					Listas.contPokemon--;
-					frmPokedexinha.dispose();
-					PokedexPanel window=new PokedexPanel(usuario);
+					Listas.Pokedex.get(Listas.contPokemon).setNum(Listas.contPokemon+1);
+					lblNumyNombre.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getNum())+" "+Listas.Pokedex.get(Listas.contPokemon).getNombre());
+					lblaltura.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getAltura())+" m");
+					lblpeso.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getPeso())+" Kg");
+					lblsexo.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getSexo()));
+					lbltipo1.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo1()));
+					lbltipo2.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo2()));
+					txtDescripcion.setText(Listas.Pokedex.get(Listas.contPokemon).getDescripcion());
+					lblImagen.setIcon(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
 				}
+			}
+		});
+		
+		btnCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreationPanel window=new CreationPanel();
+			}
+		});
+
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UpdatePanel window=new UpdatePanel();
+			}
+		});
+
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Listas.Pokedex.remove(Listas.contPokemon);
+				Listas.contPokemon--;
 			}
 		});
 	}
