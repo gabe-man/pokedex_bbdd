@@ -1,24 +1,22 @@
 package UI;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.TextField;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import Listas.*;
-import models.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+
+import Listas.Listas;
+import dao.usuariosDAO;
+import models.Usuario;
 public class LoginPanel {
 
 	private JFrame frmPokedexinha;
@@ -31,12 +29,14 @@ public class LoginPanel {
 	private TextField txtUsuario;
 	private Usuario user;
 	private boolean existe=false;
+	private usuariosDAO usuarioDAO;
 
 	/**
 	 * Create the application.
 	 */
 	public LoginPanel() {
 		initialize();
+		this.usuarioDAO = new usuariosDAO();
 		this.frmPokedexinha.setVisible(true);
 		configureListener();
 	}
@@ -95,30 +95,20 @@ public class LoginPanel {
 	{
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < Listas.Usuarios.size(); i++) {
-					if(Listas.Usuarios.get(i).getUsuario().equals(txtUsuario.getText()) && Listas.Usuarios.get(i).comprobarContraseña(txtPassword.getText()))
-					{
-						existe = true;
-						break;
-					}
-					else
-					{
-						existe=false;
-					}
-				}
+				existe=usuarioDAO.login(txtUsuario.getText(), txtPassword.getText());
 				if(existe)
 				{
-					JOptionPane.showMessageDialog(btnLogin, "Login correcto");
+					JOptionPane.showMessageDialog(txtPassword, "Login correcto");
 					frmPokedexinha.setVisible(false);
 					int i=0;
-					PokedexPanel window =new PokedexPanel(txtUsuario.getText());
+					PokedexPanel window = new PokedexPanel(txtUsuario.getText());
+					
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(btnLogin, "Login incorrecto");
+					JOptionPane.showMessageDialog(txtPassword, "Login inorrecto");
 					frmPokedexinha.setVisible(false);
 					RegisterPanel window = new RegisterPanel();
-					
 				}
 			}
 		});
@@ -128,17 +118,7 @@ public class LoginPanel {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{
-					for (int i = 0; i < Listas.Usuarios.size(); i++) {
-						if(Listas.Usuarios.get(i).getUsuario().equals(txtUsuario.getText()) && Listas.Usuarios.get(i).comprobarContraseña(txtPassword.getText()))
-						{
-							existe = true;
-							break;
-						}
-						else
-						{
-							existe=false;
-						}
-					}
+					existe=usuarioDAO.login(txtUsuario.getText(), txtPassword.getText());
 					if(existe)
 					{
 						JOptionPane.showMessageDialog(txtPassword, "Login correcto");
