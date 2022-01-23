@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.Color;
+import dao.usuariosDAO;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextField;
@@ -11,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import Listas.*;
+import dao.usuariosDAO;
 import models.*;
 
 import models.Usuario;
@@ -32,11 +34,13 @@ public class RegisterPanel {
 	private JLabel lblConfirmPass;
 	private TextField txtConfirmPass;
 	private boolean existe=false;
+	private usuariosDAO usuariodao;
 	/**
 	 * Create the application.
 	 */
 	public RegisterPanel() {
 		initialize();
+		this.usuariodao=new usuariosDAO();
 		this.frmPokedexinha.setVisible(true);
 		configureListeners();
 	}
@@ -103,29 +107,10 @@ public class RegisterPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(txtPassword.getText().equals(txtConfirmPass.getText()))
 				{
-					user=new Usuario(txtUsuario.getText(), txtPassword.getText());
-					for (int i = 0; i < Listas.Usuarios.size(); i++) {
-						if(Listas.Usuarios.get(i).getUsuario().equals(txtUsuario.getText()))
-						{
-							existe = true;
-							break;
-						}
-						else
-						{
-							existe=false;
-						}
-					}
-					if(!existe)
-					{
-						Listas.Usuarios.add(user);
-						JOptionPane.showMessageDialog(btnRegistrar, "Registro correcto");
-						frmPokedexinha.setVisible(false);
-						LoginPanel window=new LoginPanel();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(btnRegistrar, "Este usuario ya existe");
-					}
+					user=new Usuario(0 ,txtUsuario.getText(), txtPassword.getText());
+					usuariodao.register(user);
+					LoginPanel login=new LoginPanel();
+					frmPokedexinha.dispose();
 				}
 				else
 				{
@@ -141,29 +126,10 @@ public class RegisterPanel {
 				{
 					if(txtPassword.getText().equals(txtConfirmPass.getText()))
 					{
-						user=new Usuario(txtUsuario.getText(), txtPassword.getText());
-						for (int i = 0; i < Listas.Usuarios.size(); i++) {
-							if(Listas.Usuarios.get(i).getUsuario().equals(txtUsuario.getText()))
-							{
-								existe = true;
-								break;
-							}
-							else
-							{
-								existe=false;
-							}
-						}
-						if(!existe)
-						{
-							Listas.Usuarios.add(user);
-							JOptionPane.showMessageDialog(txtConfirmPass, "Registro correcto");
-							frmPokedexinha.setVisible(false);
-							LoginPanel window=new LoginPanel();
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(txtConfirmPass, "Este usuario ya existe");
-						}
+						user=new Usuario(0 ,txtUsuario.getText(), txtPassword.getText());
+						usuariodao.register(user);
+						LoginPanel login=new LoginPanel();
+						frmPokedexinha.dispose();
 					}
 					else
 					{

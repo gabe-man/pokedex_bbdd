@@ -95,12 +95,12 @@ public class LoginPanel {
 	{
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				existe=usuarioDAO.login(txtUsuario.getText(), txtPassword.getText());
+				Usuario usuario= new Usuario(0, txtUsuario.getText(), txtPassword.getText());
+				existe=usuarioDAO.login(usuario);
 				if(existe)
 				{
 					JOptionPane.showMessageDialog(txtPassword, "Login correcto");
 					frmPokedexinha.setVisible(false);
-					int i=0;
 					PokedexPanel window = new PokedexPanel(txtUsuario.getText());
 					
 				}
@@ -118,12 +118,13 @@ public class LoginPanel {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{
-					existe=usuarioDAO.login(txtUsuario.getText(), txtPassword.getText());
+					
+					Usuario usuario= new Usuario(0, txtUsuario.getText(), txtPassword.getText());
+					existe=usuarioDAO.login(usuario);
 					if(existe)
 					{
 						JOptionPane.showMessageDialog(txtPassword, "Login correcto");
 						frmPokedexinha.setVisible(false);
-						int i=0;
 						PokedexPanel window = new PokedexPanel(txtUsuario.getText());
 						
 					}

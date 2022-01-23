@@ -1,20 +1,26 @@
 package models;
 
 public class Usuario {
+	private int id;
 	private String usuario;
 	private String contraseña;
 	
-	public Usuario(String usuario, String contraseña) {
+	public Usuario(int id, String usuario, String contraseña) {
 		super();
+		this.id = id;
 		this.usuario = usuario;
 		this.contraseña = contraseña;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getUsuario() {
 		return usuario;
 	}
 	
-	private String getcontraseña() {
+	public String getcontraseña() {
 		return contraseña;
 	}
 	
