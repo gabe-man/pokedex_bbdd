@@ -1,23 +1,21 @@
 package models;
 
-import tipos.sexopokemon;
-import tipos.tipospokemon;
-
 public class Pokemon {
 	private int num;
 	private String nombre;
 	private double altura;
 	private double peso;
-	private tipospokemon tipo1;
-	private tipospokemon tipo2;
-	private sexopokemon sexo;
+	private String tipo1;
+	private String tipo2;
+	private String sexo;
 	private boolean capturado;
 	private String descripcion;
 	private String imagen;
 	
-	public Pokemon(String nombre, double altura, double peso, tipospokemon tipo1, tipospokemon tipo2, sexopokemon sexo,
+	public Pokemon(int num, String nombre, double altura, double peso, String tipo1, String tipo2, String sexo,
 			boolean capturado, String descripcion, String imagen) {
 		super();
+		this.num = num;
 		this.nombre = nombre;
 		this.altura = altura;
 		this.peso = peso;
@@ -61,27 +59,27 @@ public class Pokemon {
 		this.peso=peso;
 	}
 
-	public tipospokemon getTipo1() {
+	public String getTipo1() {
 		return tipo1;
 	}
 	
-	public void setTipo1(tipos.tipospokemon tipo1) {
+	public void setTipo1(String tipo1) {
 		this.tipo1=tipo1;
 	}
 
-	public tipospokemon getTipo2() {
+	public String getTipo2() {
 		return tipo2;
 	}
 	
-	public void setTipo2(tipos.tipospokemon tipo2) {
+	public void setTipo2(String tipo2) {
 		this.tipo2=tipo2;
 	}
 
-	public sexopokemon getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 	
-	public void setSexo(tipos.sexopokemon sexo) {
+	public void setSexo(String sexo) {
 		this.sexo=sexo;
 	}
 
@@ -104,6 +102,8 @@ public class Pokemon {
 	public void setImagen(String imagen) {
 		this.imagen=imagen;
 	}
+	
+	
 
 	@Override
 	public String toString() {

@@ -13,13 +13,14 @@ import javax.swing.SwingConstants;
 
 import models.Usuario;
 import models.Pokemon;
-import Listas.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JTextPane;
 import java.awt.TextArea;
 import javax.swing.JTextArea;
+import dao.pokemonDAO;
 
 public class PokedexPanel {
 
@@ -46,11 +47,17 @@ public class PokedexPanel {
 	private JButton btnEliminar;
 	private JButton btnActualizar;
 	private JLabel lblImagen;
+	private pokemonDAO pokemonDAO;
+	private ArrayList<Pokemon> listapokemon;
+	private int indice;
+	
 
 	/**
 	 * Create the application.
 	 */
 	public PokedexPanel(String usuario) {
+		indice = 0;
+		this.listapokemon = pokemonDAO.getAll();
 		initialize(usuario);
 		this.frmPokedexinha.setVisible(true);
 		configureListeners(usuario);
@@ -60,7 +67,6 @@ public class PokedexPanel {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(String usuario) {
-		Listas.Pokedex.get(Listas.contPokemon).setNum(Listas.contPokemon+1);
 		frmPokedexinha = new JFrame();
 		frmPokedexinha.getContentPane().setBackground(new Color(50, 205, 50));
 		frmPokedexinha.getContentPane().setLayout(null);
@@ -73,7 +79,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lblTitulo);
 		
 		lblNumyNombre = new JLabel();
-		lblNumyNombre.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getNum())+" "+Listas.Pokedex.get(Listas.contPokemon).getNombre());
+		lblNumyNombre.setText(String.valueOf(listapokemon.get(indice).getNum()+1)+" "+listapokemon.get(indice).getNombre());
 		lblNumyNombre.setForeground(Color.WHITE);
 		lblNumyNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumyNombre.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -98,7 +104,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lbllblaltura);
 		
 		lblaltura = new JLabel();
-		lblaltura.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getAltura())+" m");
+		lblaltura.setText(String.valueOf(listapokemon.get(indice).getAltura())+" m");
 		lblaltura.setHorizontalAlignment(SwingConstants.CENTER);
 		lblaltura.setForeground(new Color(0, 0, 0));
 		lblaltura.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -113,7 +119,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lbllblpeso);
 		
 		lblpeso = new JLabel();
-		lblpeso.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getPeso())+" Kg");
+		lblpeso.setText(String.valueOf(listapokemon.get(indice).getPeso()+" Kg"));
 		lblpeso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblpeso.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblpeso.setBounds(293, 277, 77, 14);
@@ -134,14 +140,14 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lbllbltipo1);
 		
 		lblsexo = new JLabel();
-		lblsexo.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getSexo()));
+		lblsexo.setText(String.valueOf(listapokemon.get(indice).getSexo()));
 		lblsexo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblsexo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblsexo.setBounds(293, 351, 77, 14);
 		frmPokedexinha.getContentPane().add(lblsexo);
 		
 		lbltipo1 = new JLabel();
-		lbltipo1.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo1()));
+		lbltipo1.setText(String.valueOf(listapokemon.get(indice).getTipo1()));
 		lbltipo1.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltipo1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbltipo1.setBounds(423, 188, 77, 14);
@@ -155,7 +161,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lbllbltipo2);
 		
 		lbltipo2 = new JLabel();
-		lbltipo2.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo2()));
+		lbltipo2.setText(String.valueOf(listapokemon.get(indice).getTipo2()));
 		lbltipo2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltipo2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbltipo2.setBounds(423, 275, 77, 14);
@@ -169,7 +175,7 @@ public class PokedexPanel {
 		
 		txtDescripcion = new JTextArea();
 		txtDescripcion.setWrapStyleWord(true);
-		txtDescripcion.setText(Listas.Pokedex.get(Listas.contPokemon).getDescripcion());
+		txtDescripcion.setText(listapokemon.get(indice).getDescripcion());
 		txtDescripcion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setBounds(10, 393, 574, 119);
@@ -191,7 +197,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(btnActualizar);
 		
 		lblImagen = new JLabel();
-		lblImagen.setIcon(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
+		lblImagen.setIcon(new ImageIcon(listapokemon.get(indice).getImagen()));
 		lblImagen.setBounds(73, 139, 234, 243);
 		frmPokedexinha.getContentPane().add(lblImagen);
 		frmPokedexinha.setTitle("Pokedexinha");
@@ -203,10 +209,10 @@ public class PokedexPanel {
 	{
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Listas.contPokemon!=(Listas.Pokedex.size()-1))
+				if(indice!=(listapokemon.size()-1))
 				{
-					Listas.contPokemon++;
-					Listas.Pokedex.get(Listas.contPokemon).setNum(Listas.contPokemon+1);
+					indice++;
+					listapokemon.get(indice).setNum(indice+1);
 					lblNumyNombre.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getNum())+" "+Listas.Pokedex.get(Listas.contPokemon).getNombre());
 					lblaltura.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getAltura())+" m");
 					lblpeso.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getPeso())+" Kg");
