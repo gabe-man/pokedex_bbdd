@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import Listas.*;
+import dao.*;
 import models.*;
 import tipos.*;
 
@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.awt.Choice;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
@@ -44,19 +45,24 @@ public class UpdatePanel {
 	private JComboBox comboBoxSexo;
 	private JComboBox comboBoxTipo1;
 	private JComboBox comboBoxTipo2;
+	private ArrayList<Pokemon> listapokemon;
+	private pokemonDAO pokemonDAO;
 	/**
 	 * Create the application.
 	 */
-	public UpdatePanel() {
-		initialize();
+	public UpdatePanel(String usuario, Pokemon pokemon) {
+		this.pokemonDAO = new pokemonDAO();
+		this.listapokemon = new ArrayList<>();
+		listapokemon = pokemonDAO.getAll();
+		initialize(pokemon);
 		this.frmPokedexinha.setVisible(true);
-		configureListeners();
+		configureListeners(usuario, pokemon);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Pokemon pokemon) {
 		frmPokedexinha = new JFrame();
 		frmPokedexinha.getContentPane().setBackground(new Color(50, 205, 50));
 		frmPokedexinha.getContentPane().setLayout(null);
@@ -85,11 +91,11 @@ public class UpdatePanel {
 		btnActualizar.setBounds(267, 507, 89, 23);
 		frmPokedexinha.getContentPane().add(btnActualizar);
 		
-		txtAltura = new TextField();
+		txtAltura = new TextField(String.valueOf(pokemon.getAltura()));
 		txtAltura.setBounds(205, 167, 224, 22);
 		frmPokedexinha.getContentPane().add(txtAltura);
 		
-		txtNombre = new TextField();
+		txtNombre = new TextField(pokemon.getNombre());
 		txtNombre.setBounds(205, 131, 224, 22);
 		frmPokedexinha.getContentPane().add(txtNombre);
 		
@@ -99,7 +105,7 @@ public class UpdatePanel {
 		lblPeso.setBounds(102, 212, 77, 14);
 		frmPokedexinha.getContentPane().add(lblPeso);
 		
-		txtPeso = new TextField();
+		txtPeso = new TextField(String.valueOf(pokemon.getPeso()));
 		txtPeso.setBounds(205, 204, 224, 22);
 		frmPokedexinha.getContentPane().add(txtPeso);
 		
@@ -127,7 +133,7 @@ public class UpdatePanel {
 		lblimagen.setBounds(102, 350, 77, 14);
 		frmPokedexinha.getContentPane().add(lblimagen);
 		
-		txtURL = new TextField();
+		txtURL = new TextField(pokemon.getImagen());
 		txtURL.setBounds(205, 346, 224, 22);
 		frmPokedexinha.getContentPane().add(txtURL);
 		
@@ -137,14 +143,14 @@ public class UpdatePanel {
 		lblDescripcion.setBounds(102, 387, 97, 14);
 		frmPokedexinha.getContentPane().add(lblDescripcion);
 		
-		txtDescripcion = new JTextArea();
+		txtDescripcion = new JTextArea(pokemon.getDescripcion());
 		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		txtDescripcion.setBounds(205, 384, 333, 112);
 		frmPokedexinha.getContentPane().add(txtDescripcion);
 		
-		comboBoxSexo = new JComboBox(tipos.sexopokemon.values());
+		comboBoxSexo = new JComboBox(tipos.sexo.values());
 		comboBoxSexo.setBounds(205, 245, 224, 22);
 		frmPokedexinha.getContentPane().add(comboBoxSexo);
 		
@@ -160,13 +166,13 @@ public class UpdatePanel {
 		frmPokedexinha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private void configureListeners()
+	private void configureListeners(String usuario, Pokemon pokemon)
 	{
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean existe=false;
-				for (int i = 0; i < Listas.Pokedex.size(); i++) {
-					if(txtNombre.getText().equals(Listas.Pokedex.get(i).getNombre()) && i!=Listas.contPokemon)
+				for (int i = 0; i < listapokemon.size(); i++) {
+					if(txtNombre.getText().equals(listapokemon.get(i).getNombre()) && !listapokemon.get(i).getNombre().equals(pokemon.getNombre()))
 					{
 						existe=true;
 						JOptionPane.showMessageDialog(btnActualizar, "Este Pokemon ya existe");
@@ -175,15 +181,10 @@ public class UpdatePanel {
 				}
 				if(!existe)
 				{
-					Listas.Pokedex.get(Listas.contPokemon).setNombre(txtNombre.getText());
-					Listas.Pokedex.get(Listas.contPokemon).setAltura(Double.parseDouble(txtAltura.getText()));
-					Listas.Pokedex.get(Listas.contPokemon).setPeso(Double.parseDouble(txtPeso.getText()));
-					Listas.Pokedex.get(Listas.contPokemon).setSexo((tipos.sexopokemon)comboBoxSexo.getSelectedItem());
-					Listas.Pokedex.get(Listas.contPokemon).setTipo2((tipos.tipospokemon)comboBoxTipo2.getSelectedItem());
-					Listas.Pokedex.get(Listas.contPokemon).setTipo1((tipos.tipospokemon)comboBoxTipo1.getSelectedItem());
-					Listas.Pokedex.get(Listas.contPokemon).setImagen(txtURL.getText());
-					Listas.Pokedex.get(Listas.contPokemon).setDescripcion(txtDescripcion.getText());
+					Pokemon pokemon2 = new Pokemon(pokemon.getNum(), txtNombre.getText(), Double.parseDouble(txtAltura.getText()), Double.parseDouble(txtPeso.getText()), String.valueOf(comboBoxTipo1.getSelectedItem()), String.valueOf(comboBoxTipo2.getSelectedItem()), String.valueOf(comboBoxSexo.getSelectedItem()), false, txtDescripcion.getText(), txtURL.getText()); 
+					pokemonDAO.update(pokemon2);
 					frmPokedexinha.dispose();
+					PokedexPanel window = new PokedexPanel(usuario);
 				}
 			}
 		});

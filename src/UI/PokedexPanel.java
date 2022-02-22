@@ -56,6 +56,8 @@ public class PokedexPanel {
 	 * Create the application.
 	 */
 	public PokedexPanel(String usuario) {
+		this.pokemonDAO=new pokemonDAO();
+		this.listapokemon= new ArrayList<>();
 		indice = 0;
 		this.listapokemon = pokemonDAO.getAll();
 		initialize(usuario);
@@ -79,7 +81,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lblTitulo);
 		
 		lblNumyNombre = new JLabel();
-		lblNumyNombre.setText(String.valueOf(listapokemon.get(indice).getNum()+1)+" "+listapokemon.get(indice).getNombre());
+		lblNumyNombre.setText(String.valueOf(listapokemon.get(indice).getNum())+" "+listapokemon.get(indice).getNombre());
 		lblNumyNombre.setForeground(Color.WHITE);
 		lblNumyNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumyNombre.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -140,14 +142,14 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lbllbltipo1);
 		
 		lblsexo = new JLabel();
-		lblsexo.setText(String.valueOf(listapokemon.get(indice).getSexo()));
+		lblsexo.setText(listapokemon.get(indice).getSexo());
 		lblsexo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblsexo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblsexo.setBounds(293, 351, 77, 14);
 		frmPokedexinha.getContentPane().add(lblsexo);
 		
 		lbltipo1 = new JLabel();
-		lbltipo1.setText(String.valueOf(listapokemon.get(indice).getTipo1()));
+		lbltipo1.setText(listapokemon.get(indice).getTipo1());
 		lbltipo1.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltipo1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbltipo1.setBounds(423, 188, 77, 14);
@@ -161,7 +163,7 @@ public class PokedexPanel {
 		frmPokedexinha.getContentPane().add(lbllbltipo2);
 		
 		lbltipo2 = new JLabel();
-		lbltipo2.setText(String.valueOf(listapokemon.get(indice).getTipo2()));
+		lbltipo2.setText(listapokemon.get(indice).getTipo2());
 		lbltipo2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbltipo2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lbltipo2.setBounds(423, 275, 77, 14);
@@ -212,53 +214,53 @@ public class PokedexPanel {
 				if(indice!=(listapokemon.size()-1))
 				{
 					indice++;
-					listapokemon.get(indice).setNum(indice+1);
-					lblNumyNombre.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getNum())+" "+Listas.Pokedex.get(Listas.contPokemon).getNombre());
-					lblaltura.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getAltura())+" m");
-					lblpeso.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getPeso())+" Kg");
-					lblsexo.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getSexo()));
-					lbltipo1.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo1()));
-					lbltipo2.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo2()));
-					txtDescripcion.setText(Listas.Pokedex.get(Listas.contPokemon).getDescripcion());
-					lblImagen.setIcon(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
+					lblNumyNombre.setText(String.valueOf(listapokemon.get(indice).getNum())+" "+listapokemon.get(indice).getNombre());
+					lblaltura.setText(String.valueOf(listapokemon.get(indice).getAltura())+" m");
+					lblpeso.setText(String.valueOf(listapokemon.get(indice).getPeso())+" Kg");
+					lblsexo.setText(listapokemon.get(indice).getSexo());
+					lbltipo1.setText(listapokemon.get(indice).getTipo1());
+					lbltipo2.setText(listapokemon.get(indice).getTipo2());
+					txtDescripcion.setText(listapokemon.get(indice).getDescripcion());
+					lblImagen.setIcon(new ImageIcon(listapokemon.get(indice).getImagen()));
 				}
 			}
 		});
 		
 		btnPrevio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Listas.contPokemon!=0)
+				if(indice!=0)
 				{
-					Listas.contPokemon--;
-					Listas.Pokedex.get(Listas.contPokemon).setNum(Listas.contPokemon+1);
-					lblNumyNombre.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getNum())+" "+Listas.Pokedex.get(Listas.contPokemon).getNombre());
-					lblaltura.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getAltura())+" m");
-					lblpeso.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getPeso())+" Kg");
-					lblsexo.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getSexo()));
-					lbltipo1.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo1()));
-					lbltipo2.setText(String.valueOf(Listas.Pokedex.get(Listas.contPokemon).getTipo2()));
-					txtDescripcion.setText(Listas.Pokedex.get(Listas.contPokemon).getDescripcion());
-					lblImagen.setIcon(new ImageIcon(Listas.Pokedex.get(Listas.contPokemon).getImagen()));
+					indice--;
+					lblNumyNombre.setText(String.valueOf(listapokemon.get(indice).getNum())+" "+listapokemon.get(indice).getNombre());
+					lblaltura.setText(String.valueOf(listapokemon.get(indice).getAltura())+" m");
+					lblpeso.setText(String.valueOf(listapokemon.get(indice).getPeso())+" Kg");
+					lblsexo.setText(listapokemon.get(indice).getSexo());
+					lbltipo1.setText(listapokemon.get(indice).getTipo1());
+					lbltipo2.setText(listapokemon.get(indice).getTipo2());
+					txtDescripcion.setText(listapokemon.get(indice).getDescripcion());
+					lblImagen.setIcon(new ImageIcon(listapokemon.get(indice).getImagen()));
 				}
 			}
 		});
 		
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreationPanel window=new CreationPanel();
+				frmPokedexinha.dispose();
+				CreationPanel window=new CreationPanel(usuario);
 			}
 		});
 
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UpdatePanel window=new UpdatePanel();
+				frmPokedexinha.dispose();
+				UpdatePanel window=new UpdatePanel(usuario, listapokemon.get(indice));
 			}
 		});
 
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Listas.Pokedex.remove(Listas.contPokemon);
-				Listas.contPokemon--;
+				pokemonDAO.delete(listapokemon.get(indice));
+				listapokemon.remove(indice);
 			}
 		});
 	}

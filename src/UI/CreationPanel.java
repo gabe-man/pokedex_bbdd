@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.Color;
+import dao.*;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextField;
@@ -10,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import Listas.*;
 import models.*;
 import tipos.*;
 
@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.awt.Choice;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
@@ -44,13 +45,20 @@ public class CreationPanel {
 	private JComboBox comboBoxSexo;
 	private JComboBox comboBoxTipo1;
 	private JComboBox comboBoxTipo2;
+	private TextField txtNumero;
+	private JLabel lblNumero;
+	private pokemonDAO pokemonDAO;
+	private ArrayList<Pokemon> listapokemon;
 	/**
 	 * Create the application.
 	 */
-	public CreationPanel() {
+	public CreationPanel(String usuario) {
+		this.pokemonDAO=new pokemonDAO();
+		this.listapokemon=new ArrayList<>();
+		listapokemon= pokemonDAO.getAll();
 		initialize();
 		this.frmPokedexinha.setVisible(true);
-		configureListeners();
+		configureListeners(usuario);
 	}
 
 	/**
@@ -144,7 +152,7 @@ public class CreationPanel {
 		txtDescripcion.setBounds(205, 384, 333, 112);
 		frmPokedexinha.getContentPane().add(txtDescripcion);
 		
-		comboBoxSexo = new JComboBox(tipos.sexopokemon.values());
+		comboBoxSexo = new JComboBox(tipos.sexo.values());
 		comboBoxSexo.setBounds(205, 245, 224, 22);
 		frmPokedexinha.getContentPane().add(comboBoxSexo);
 		
@@ -155,18 +163,28 @@ public class CreationPanel {
 		comboBoxTipo2 = new JComboBox(tipos.tipospokemon.values());
 		comboBoxTipo2.setBounds(205, 318, 224, 22);
 		frmPokedexinha.getContentPane().add(comboBoxTipo2);
+		
+		txtNumero = new TextField();
+		txtNumero.setBounds(205, 93, 224, 22);
+		frmPokedexinha.getContentPane().add(txtNumero);
+		
+		lblNumero = new JLabel("Numero");
+		lblNumero.setForeground(Color.WHITE);
+		lblNumero.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNumero.setBounds(102, 101, 97, 14);
+		frmPokedexinha.getContentPane().add(lblNumero);
 		frmPokedexinha.setTitle("Pokedexinha");
 		frmPokedexinha.setBounds(100, 100, 610, 580);
 		frmPokedexinha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private void configureListeners()
+	private void configureListeners(String usuario)
 	{
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean existe=false;
-				for (int i = 0; i < Listas.Pokedex.size(); i++) {
-					if(txtNombre.getText().equals(Listas.Pokedex.get(i).getNombre()))
+				for (int i = 0; i < listapokemon.size(); i++) {
+					if(txtNombre.getText().equals(listapokemon.get(i).getNombre()) || Integer.parseInt(txtNumero.getText())==listapokemon.get(i).getNum())
 					{
 						existe=true;
 						JOptionPane.showMessageDialog(btnRegistrar, "Este Pokemon ya existe");
@@ -175,8 +193,9 @@ public class CreationPanel {
 				}
 				if(!existe)
 				{
-					Listas.Pokedex.add(new Pokemon(txtNombre.getText(), Double.parseDouble(txtAltura.getText()), Double.parseDouble(txtPeso.getText()), (tipos.tipospokemon)comboBoxTipo1.getSelectedItem(), (tipos.tipospokemon)comboBoxTipo2.getSelectedItem(), (tipos.sexopokemon)comboBoxSexo.getSelectedItem(), false, txtDescripcion.getText(), txtURL.getText()));
+					pokemonDAO.insert(new Pokemon(Integer.parseInt(txtNumero.getText()), txtNombre.getText(), Double.parseDouble(txtAltura.getText()), Double.parseDouble(txtPeso.getText()), String.valueOf(comboBoxTipo1.getSelectedItem()), String.valueOf(comboBoxTipo2.getSelectedItem()), String.valueOf(comboBoxSexo.getSelectedItem()), false, txtDescripcion.getText(), txtURL.getText()));
 					frmPokedexinha.dispose();
+					PokedexPanel window = new PokedexPanel(usuario); 
 				}
 			}
 		});
